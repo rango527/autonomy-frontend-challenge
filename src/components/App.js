@@ -10,6 +10,7 @@ const App = () => {
 
     const { account, connect } = useWallet();
     const [amount, setAmount] = useState();
+    const [time, setTime] = useState();
     const [recipient, setRecipient] = useState();
     const [loadingSend, setLoadingSend] = useState(false);
 
@@ -19,6 +20,10 @@ const App = () => {
 
     const handleChangeRecipient = (e) => {
         setRecipient(e.target.value);
+    };
+
+    const handleChangeTime = (e) => {
+        setTime(e.target.value);
     };
 
     useEffect(() => {
@@ -33,7 +38,6 @@ const App = () => {
         }
         if (!loadingSend && account) {
             setLoadingSend(true);
-            const time = Math.floor((new Date().getTime())/1000);
             dispatch(sendEth(
                 ethSenderContract,
                 registryContract,
@@ -58,6 +62,7 @@ const App = () => {
                 <InputData>
                     <input type="number" value={amount} onChange={handleChangeAmount} placeholder='eth'/>
                     <input type="text" value={recipient} onChange={handleChangeRecipient} placeholder='recipient'/>
+                    <input type="number" value={time} onChange={handleChangeTime} placeholder='minutes'/>
                     <button onClick={(e) => onSendEth(e)} type="button">
                         {!loadingSend ? `Send` : `Sending...`}
                     </button>
